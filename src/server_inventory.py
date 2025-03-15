@@ -63,6 +63,48 @@ def stat_roles():
             nb_servers_per_role.update({role:nb_servers_per_role[role]+1})
     return nb_servers_per_role
     
+def stat_all():
+    
+    app_dict = {}
+    files = loop_files()
+    for file in files:
+        app=str(file["tags"]["app"])
+        country=str(file["tags"]["country"])
+        role=str(file["tags"]["role"])
+    
+        if app not in app_dict.keys():
+            app_dict[app]= {
+                "count":1,
+                "country":{},
+                "role":{}
+                            }
+        else:
+            count = app_dict[app]["count"]
+            country_dict=app_dict[app]["country"]
+            role_dict=app_dict[app]["role"]
+            
+            if country not in country_dict.keys():
+                country_dict[country]=1
+            else:
+                country_dict.update({country:country_dict[country]+1})
+            
+            if role not in role_dict.keys():
+                role_dict[role]=1
+            else:
+                role_dict.update({role:role_dict[role]+1})
+            
+            app_dict[app]["count"]=count+1
+            app_dict[app]["country"]=country_dict
+            app_dict[app]["role"]=role_dict
+            
+            # app_dict.update({
+            #     app["count"]:count,
+            #     app["country"]:country_dict,
+            #     app["role"]:role_dict
+            #     })
+    return app_dict
+    
 
 
-create_json_from_dict("stat_roles.json",stat_roles())
+create_json_from_dict("stat_all.json",stat_all())
+# stat_all()
