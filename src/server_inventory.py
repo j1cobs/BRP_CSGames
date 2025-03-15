@@ -36,6 +36,33 @@ def stat_apps():
         else:
             nb_servers_per_app.update({app:nb_servers_per_app[app]+1})
     return nb_servers_per_app
+
+def stat_countries():
     
-create_json_from_dict("stat_apps.json",stat_apps())
-print(stat_apps())
+    nb_servers_per_countries = {}
+    files = loop_files()
+    for file in files:
+        country=str(file["tags"]["country"])
+    
+        if country not in nb_servers_per_countries.keys():
+            nb_servers_per_countries[country]=1
+        else:
+            nb_servers_per_countries.update({country:nb_servers_per_countries[country]+1})
+    return nb_servers_per_countries
+
+def stat_roles():
+    
+    nb_servers_per_role = {}
+    files = loop_files()
+    for file in files:
+        role=str(file["tags"]["role"])
+    
+        if role not in nb_servers_per_role.keys():
+            nb_servers_per_role[role]=1
+        else:
+            nb_servers_per_role.update({role:nb_servers_per_role[role]+1})
+    return nb_servers_per_role
+    
+
+
+create_json_from_dict("stat_roles.json",stat_roles())
